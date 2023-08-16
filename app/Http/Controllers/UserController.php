@@ -18,9 +18,9 @@ class UserController extends Controller
             'email' => ['required', 'email'],
             'password' => ['min:8', 'confirmed']
         ]);
-    
+
         $user = User::create($validateData);
-    
+
         if ($user) {
             $token = $user->createToken('auth_token')->accessToken;
             return response()->json([
@@ -36,7 +36,6 @@ class UserController extends Controller
             ], 500);
         }
     }
-
 
 
     public function login(Request $request)
