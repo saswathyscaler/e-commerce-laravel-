@@ -18,14 +18,23 @@ class UserController extends Controller
             'email' => ['required', 'email'],
             'password' => ['min:8', 'confirmed']
         ]);
+    
         $user = User::create($validateData);
-        $token = $user->createToken('auth_token')->accessToken;
-        return response()->json([
-            'token' => $token,
-            'user' => $user,
-            'message' => 'user created successfully',
-            'status' => 200
-        ]);
+    
+        if ($user) {
+            $token = $user->createToken('auth_token')->accessToken;
+            return response()->json([
+                'token' => $token,
+                'user' => $user,
+                'message' => 'User created successfully',
+                'status' => 200
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Failed to create user',
+                'status' => 500
+            ], 500);
+        }
     }
 
 
