@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash; // Add this import at the top
+use Illuminate\Support\Facades\Hash; 
 
-use function Laravel\Prompts\password;
 
 class UserController extends Controller
 {
