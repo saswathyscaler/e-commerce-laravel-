@@ -38,30 +38,40 @@ class UserController extends Controller
 
 
     public function login(Request $request)
-    {
-        $validateData = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
+{
+    $validateData = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required']
+    ]);
 
-        $user = User::where('email', $validateData['email'])->first();
+    $user = User::where('email', $validateData['email'])->first();
 
-        if (!$user || !Hash::check($validateData['password'], $user->password)) {
-            return response()->json([
-                'message' => 'Invalid email or password',
-                'status' => 401
-            ], 401);
-        }
+    if (!$user || !Hash::check($validateData['password'], $user->password)) {
+        return response()->json([
+            'message' => 'Invalid email or password',
+            'status' => 401
+        ], 401);
+    }
 
-        $token = $user->createToken('auth_token')->accessToken;
+    $token = $user->createToken('auth_token')->accessToken;
 
+    if ($validateData['email'] === 'saswatranjan0602@gmail.com' && $validateData['password'] === 'Saswat@0602') {
         return response()->json([
             'token' => $token,
             'user' => $user,
-            'message' => 'User authenticated successfully',
+            'message' => 'Logged in as admin',
             'status' => 200
         ]);
     }
+
+    return response()->json([
+        'token' => $token,
+        'user' => $user,
+        'message' => 'User authenticated successfully',
+        'status' => 200
+    ]);
+}
+
 
     public function getUser($id)
     {
