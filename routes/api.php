@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -35,5 +36,9 @@ Route::delete('/products/{id}', [ProductController::class, 'delete']);
 
 Route::post('/filter', [ProductController::class, 'filterByCategory']);
 
+Route::middleware('auth:api')->group(function () {
+    Route::post('/cart/add/{productId}', [CartController::class, 'addToCart']);
+    Route::get('/cart', [CartController::class, 'index']);
+});
 
 
