@@ -32,3 +32,8 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::post('/products/{id}', [ProductController::class, 'update']);
 
 Route::delete('/products/{id}', [ProductController::class, 'delete']);
+
+Route::post('/filter', [ProductController::class, 'filterByCategory']);
+
+
+
