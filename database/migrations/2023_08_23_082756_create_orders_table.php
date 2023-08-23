@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('userid'); // Foreign key column
+            $table->string('payment_id');
+            $table->string('amount');
+            $table->string('address');
             $table->timestamps();
+    
+            $table->foreign('userid')->references('id')->on('users');
         });
+    
     }
 
     /**

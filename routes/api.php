@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -42,3 +43,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 
+
+Route::post('/makePayment', [PaymentController::class, 'makePayment']);
+
+Route::post('/paymentsuccess', [PaymentController::class, 'handleSuccess'])->middleware('auth');
