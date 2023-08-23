@@ -46,4 +46,4 @@ Route::middleware('auth:api')->group(function () {
 
 Route::post('/makePayment', [PaymentController::class, 'makePayment']);
 
-Route::post('/paymentsuccess', [PaymentController::class, 'handleSuccess'])->middleware('auth');
+Route::post('/placeOrder', [PaymentController::class, 'store']);

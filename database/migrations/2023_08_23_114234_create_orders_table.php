@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('userid'); // Foreign key column
+            $table->unsignedBigInteger('userid'); 
             $table->string('payment_id');
+            $table->string('phn_no');
             $table->string('amount');
             $table->string('address');
             $table->timestamps();
