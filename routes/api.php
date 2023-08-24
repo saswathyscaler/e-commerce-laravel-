@@ -40,10 +40,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/cart', [CartController::class, 'index']);
     Route::delete('/cart/{cartItemId}', [CartController::class, 'removeFromCart']);
 
+    Route::post('/makePayment', [PaymentController::class, 'makePayment']);
+
+    Route::post('/handlepayment', [PaymentController::class, 'handlePayment']);
+    
 });
 
+Route::post('/placeOrder', [PaymentController::class, 'placeOrder']);
 
-
-Route::post('/makePayment', [PaymentController::class, 'makePayment']);
-
-Route::post('/placeOrder', [PaymentController::class, 'store']);
+Route::get('form-data', [PaymentController::class, 'getAllFormData']);

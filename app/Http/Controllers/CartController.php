@@ -33,6 +33,7 @@ class CartController extends Controller
         return response()->json(['message' => 'Product added to cart successfully']);
     }
 
+    
 
     public function index(Request $request)
     {
@@ -44,6 +45,7 @@ class CartController extends Controller
 
         return response()->json($cartItems);
     }
+
 
     public function removeFromCart($cartItemId)
     {
