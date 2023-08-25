@@ -9,16 +9,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+
+
+    //Create the user
     public function register(Request $request)
     {
         $validateData = $request->validate([
             'name' => 'required',
             'email' => ['required', 'email'],
-            'password' => ['min:8', 'confirmed']
+            'password' => ['min:8', 'confirmed'],
+            'ph_no'=>'required',
         ]);
-    
+
         $user = User::create($validateData);
-    
+
         if ($user) {
             $token = $user->createToken('auth_token')->accessToken;
             return response()->json([
@@ -34,8 +39,8 @@ class UserController extends Controller
             ], 500);
         }
     }
-    
 
+//LOG in  for user 
 
     public function login(Request $request)
     {
@@ -43,18 +48,18 @@ class UserController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
-    
+
         $user = User::where('email', $validateData['email'])->first();
-    
+
         if (!$user || !Hash::check($validateData['password'], $user->password)) {
             return response()->json([
                 'message' => 'Invalid email or password',
                 'status' => 401
             ], 401);
         }
-    
+
         $token = $user->createToken('auth_token')->accessToken;
-    
+
         if ($validateData['email'] === 'saswatranjan0602@gmail.com' && $validateData['password'] === 'Saswat@0602') {
             return response()->json([
                 'token' => $token,
@@ -63,7 +68,7 @@ class UserController extends Controller
                 'status' => 200
             ]);
         }
-    
+
         return response()->json([
             'token' => $token,
             'user_id' => $user->id, // Include the user's ID in the response
@@ -71,9 +76,11 @@ class UserController extends Controller
             'status' => 200
         ]);
     }
-    
 
 
+
+
+//Get specifuc user 
 
     public function getUser($id)
     {
@@ -94,16 +101,15 @@ class UserController extends Controller
     }
 
 
-
+//Get all user 
     public function getAllUsers()
-{
-    $users = User::all();
-    
-    return response()->json([
-        'users' => $users,
-        'message' => 'All users retrieved successfully',
-        'status' => 200
-    ]);
-}
+    {
+        $users = User::all();
 
+        return response()->json([
+            'users' => $users,
+            'message' => 'All users retrieved successfully',
+            'status' => 200
+        ]);
+    }
 }

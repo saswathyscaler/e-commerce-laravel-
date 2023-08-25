@@ -13,7 +13,7 @@ class FormData extends Model
         'mobileNumber',
         'alternateNumber',
         'address',
-        'user_id', // Adding user_id field to associate with the user
+        'user_id', 
         'order_id'
     ];
 
