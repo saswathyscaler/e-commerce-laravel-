@@ -22,6 +22,12 @@ Route:: middleware('auth:api')->group(function(){
     Route::get('/user/{id}', [UserController::class, 'getUser']);
 });
 
+Route::get('/users', [UserController::class, 'getAllUsers']);
+
+
+
+
+
 
 Route::post('/addproduct', [ProductController::class, 'store']);
 
