@@ -51,7 +51,7 @@ class RatingController extends Controller
 
         return response()->json([
             'ratings' => $ratings,
-            'message' => 'All ratings retrieved successfully',
+            'message' => 'success',
             'status' => 200,
         ]);
     }
@@ -92,7 +92,7 @@ class RatingController extends Controller
     }
 
 
-    
+
     //Delete Rating 
     public function deleteRating($id)
     {
