@@ -7,6 +7,7 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+    //ADD PRODUCT
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -15,7 +16,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|integer',
             'stock_quantity' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -29,6 +30,7 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product added successfully', 'product' => $product], 201);
     }
 
+    //ALL PRODUCT 
     public function index()
     {
         $products = Product::all();
@@ -37,7 +39,7 @@ class ProductController extends Controller
     }
 
 
-
+//SINGLE PRODUCT
     public function show($id)
     {
         $product = Product::find($id);
@@ -49,7 +51,7 @@ class ProductController extends Controller
         return response()->json(['product' => $product], 200);
     }
 
-
+//UPDATE PRODUCT
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
@@ -76,7 +78,7 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
     }
 
-
+//DELET PRODUCT 
     public function delete($id)
     {
         $product = Product::find($id);
@@ -90,6 +92,7 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product deleted successfully'], 200);
     }
 
+    //FILTER PRODUCT BY CATEGORIES 
     public function filterByCategory(Request $request)
     {
         $category = $request->input('category');
