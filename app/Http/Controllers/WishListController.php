@@ -12,7 +12,6 @@ class WishListController extends Controller
     //ADD TO WISHLIST
     public function addToWishlistItem(Request $request, $productId)
     {
-
         $user = auth()->user();
         $product = Product::findOrFail($productId);
         $wishlistItem = Wishlist::where('user_id', $user->id)
@@ -20,16 +19,17 @@ class WishListController extends Controller
             ->first();
 
         if ($wishlistItem) {
-            $wishlistItem->save();
-        } else {
-            Wishlist::create([
-                'user_id' => $user->id,
-                'product_id' => $product->id,
-            ]);
+            return response()->json(['message' => 'Product already wishlisted']);
         }
+
+        Wishlist::create([
+            'user_id' => $user->id,
+            'product_id' => $product->id,
+        ]);
 
         return response()->json(['message' => 'Product wishlisted']);
     }
+
 
 
     //VIEW WISHLISTED ITEMS
@@ -47,18 +47,22 @@ class WishListController extends Controller
 
 
     //REMOVE FROM Wishlist
-    public function removeFromWishlist($wishlistItem)
+    public function removeFromWishlist($productId)
     {
-        $wishlistItem = Wishlist::find($wishlistItem);
-
+        $user = auth()->user();
+        $product = Product::findOrFail($productId);
+        
+        $wishlistItem = Wishlist::where('user_id', $user->id)
+            ->where('product_id', $product->id)
+            ->first();
+    
         if (!$wishlistItem) {
-            return response()->json(['message' => 'product not found'], 404);
+            return response()->json(['message' => 'Product not found in wishlist'], 404);
         }
-
+    
         $wishlistItem->delete();
-
-        return response()->json(['message' => 'Product removed from wishlist ']);
+    
+        return response()->json(['message' => 'Product removed from wishlist']);
     }
-
-
+    
 }
