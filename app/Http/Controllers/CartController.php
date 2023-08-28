@@ -8,6 +8,8 @@ use App\Models\Cart;
 
 class CartController extends Controller
 {
+
+    //ADD PRODUCT TO THE CART
     public function addToCart(Request $request, $productId)
     {
 
@@ -33,7 +35,7 @@ class CartController extends Controller
         return response()->json(['message' => 'Product added to cart successfully']);
     }
 
-    
+    //VIEW CART ITEMS
 
     public function index(Request $request)
     {
@@ -46,18 +48,17 @@ class CartController extends Controller
         return response()->json($cartItems);
     }
 
-
+    //REMOVE FROM CART
     public function removeFromCart($cartItemId)
     {
         $cartItem = Cart::find($cartItemId);
-    
+
         if (!$cartItem) {
             return response()->json(['message' => 'product not found'], 404);
         }
-    
+
         $cartItem->delete();
-    
+
         return response()->json(['message' => 'Product removed from cart successfully']);
     }
-    
 }

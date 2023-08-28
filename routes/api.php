@@ -5,6 +5,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,9 +52,18 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/cart', [CartController::class, 'index']);
     Route::delete('/cart/{cartItemId}', [CartController::class, 'removeFromCart']);
 
-    Route::post('/makePayment', [PaymentController::class, 'makePayment']);
+    //payment 
 
+    Route::post('/makePayment', [PaymentController::class, 'makePayment']);
     Route::post('/handlepayment', [PaymentController::class, 'handlePayment']);
+
+
+//wishlist 
+    Route::post('/wishlist/add/{productId}', [WishListController::class, 'addToWishlistItem']);
+
+    Route::get('/wishlist', [WishListController::class, 'showWishlist']);
+
+    Route::delete('/wishlist/remove/{wishlistItem}', [WishListController::class, 'removeFromWishlist']);
     
 });
 
