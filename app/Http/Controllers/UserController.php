@@ -41,41 +41,42 @@ class UserController extends Controller
     }
 
 //LOG in  for user 
+public function login(Request $request)
+{
+    $validateData = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required']
+    ]);
 
-    public function login(Request $request)
-    {
-        $validateData = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
+    $user = User::where('email', $validateData['email'])->first();
 
-        $user = User::where('email', $validateData['email'])->first();
+    if (!$user || !Hash::check($validateData['password'], $user->password)) {
+        return response()->json([
+            'message' => 'Invalid email or password',
+            'status' => 401
+        ], 401);
+    }
 
-        if (!$user || !Hash::check($validateData['password'], $user->password)) {
-            return response()->json([
-                'message' => 'Invalid email or password',
-                'status' => 401
-            ], 401);
-        }
+    $token = $user->createToken('auth_token')->accessToken;
 
-        $token = $user->createToken('auth_token')->accessToken;
-
-        if ($validateData['email'] === 'saswatranjan0602@gmail.com' && $validateData['password'] === 'Saswat@0602') {
-            return response()->json([
-                'token' => $token,
-                'user_id' => $user->id, // Include the user's ID in the response
-                'message' => 'Logged in as admin',
-                'status' => 200
-            ]);
-        }
-
+    if ($validateData['email'] === 'saswatranjan0602@gmail.com' && $validateData['password'] === 'Saswat@0602') {
         return response()->json([
             'token' => $token,
-            'user_id' => $user->id, // Include the user's ID in the response
-            'message' => 'User authenticated successfully',
+            'user_id' => $user->id,
+            'user_name' => $user->name, 
+            'message' => 'Logged in as admin',
             'status' => 200
         ]);
     }
+
+    return response()->json([
+        'token' => $token,
+        'user_id' => $user->id,
+        'user_name' => $user->name, 
+        'message' => 'User authenticated successfully',
+        'status' => 200
+    ]);
+}
 
 
 
