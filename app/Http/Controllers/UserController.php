@@ -19,7 +19,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => ['required', 'email'],
             'password' => ['min:8', 'confirmed'],
-            'ph_no'=>'required',
+            'ph_no' => 'required',
         ]);
 
         $user = User::create($validateData);
@@ -40,48 +40,48 @@ class UserController extends Controller
         }
     }
 
-//LOG in  for user 
-public function login(Request $request)
-{
-    $validateData = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required']
-    ]);
+    //LOG in  for user 
+    public function login(Request $request)
+    {
+        $validateData = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
 
-    $user = User::where('email', $validateData['email'])->first();
+        $user = User::where('email', $validateData['email'])->first();
 
-    if (!$user || !Hash::check($validateData['password'], $user->password)) {
-        return response()->json([
-            'message' => 'Invalid email or password',
-            'status' => 401
-        ], 401);
-    }
+        if (!$user || !Hash::check($validateData['password'], $user->password)) {
+            return response()->json([
+                'message' => 'Invalid email or password',
+                'status' => 401
+            ], 401);
+        }
 
-    $token = $user->createToken('auth_token')->accessToken;
+        $token = $user->createToken('auth_token')->accessToken;
 
-    if ($validateData['email'] === 'saswatranjan0602@gmail.com' && $validateData['password'] === 'Saswat@0602') {
+        if ($validateData['email'] === 'saswatranjan0602@gmail.com' && $validateData['password'] === 'Saswat@0602') {
+            return response()->json([
+                'token' => $token,
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'message' => 'Logged in as admin',
+                'status' => 200
+            ]);
+        }
+
         return response()->json([
             'token' => $token,
             'user_id' => $user->id,
-            'user_name' => $user->name, 
-            'message' => 'Logged in as admin',
+            'user_name' => $user->name,
+            'message' => 'User authenticated successfully',
             'status' => 200
         ]);
     }
 
-    return response()->json([
-        'token' => $token,
-        'user_id' => $user->id,
-        'user_name' => $user->name, 
-        'message' => 'User authenticated successfully',
-        'status' => 200
-    ]);
-}
 
 
 
-
-//Get specifuc user 
+    //Get specifuc user 
 
     public function getUser($id)
     {
@@ -102,7 +102,7 @@ public function login(Request $request)
     }
 
 
-//Get all user 
+    //Get all user 
     public function getAllUsers()
     {
         $users = User::all();

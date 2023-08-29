@@ -20,26 +20,33 @@ Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
 
-Route:: middleware('auth:api')->group(function(){
+Route::middleware('auth:api')->group(function () {
     Route::get('/user/{id}', [UserController::class, 'getUser']);
 });
 
 Route::get('/users', [UserController::class, 'getAllUsers']);
 
 
+//ADMIN ROUTES
+// Routes accessible only to admin users
+
+Route::group(['middleware' => 'admin.auth'], function () {
+    Route::post('/addproduct', [ProductController::class, 'store']);
+
+    Route::post('/products/{id}', [ProductController::class, 'update']);
+
+    Route::delete('/products/{id}', [ProductController::class, 'delete']);
+
+    Route::delete('/ratings/{id}', [RatingController::class, 'deleteRating'])->middleware('auth:api');
+});
 
 
 //products
 
-Route::post('/addproduct', [ProductController::class, 'store']);
 
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::get('/products/{id}', [ProductController::class, 'show']);
-
-Route::post('/products/{id}', [ProductController::class, 'update']);
-
-Route::delete('/products/{id}', [ProductController::class, 'delete']);
 
 Route::post('/filter', [ProductController::class, 'filterByCategory']);
 
@@ -58,13 +65,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/handlepayment', [PaymentController::class, 'handlePayment']);
 
 
-//wishlist 
+    //wishlist 
     Route::post('/wishlist/add/{productId}', [WishListController::class, 'addToWishlistItem']);
 
     Route::get('/wishlist', [WishlistController::class, 'showWishlist']);
 
     Route::delete('/wishlist/remove/{productId}', [WishlistController::class, 'removeFromWishlist']);
-    
 });
 
 Route::post('/placeOrder', [PaymentController::class, 'placeOrder']);
@@ -80,5 +86,3 @@ Route::post('/ratings', [RatingController::class, 'store'])->middleware('auth:ap
 Route::get('/ratings/{product_id}', [RatingController::class, 'getAllRatingsForProduct']);
 
 Route::put('/ratings/edit/{id}', [RatingController::class, 'editRating'])->middleware('auth:api');
-
-Route::delete('/ratings/{id}', [RatingController::class, 'deleteRating'])->middleware('auth:api');
