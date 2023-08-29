@@ -115,13 +115,13 @@ class UserController extends Controller
     }
 
 
-//is_active toggle 
+    //is_active toggle 
     public function toggleActivation(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         $user->update([
-            'is_active' => !$user->is_active, 
+            'is_active' => !$user->is_active,
         ]);
 
         return response()->json([
