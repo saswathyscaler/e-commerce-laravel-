@@ -39,7 +39,7 @@ class ProductController extends Controller
     }
 
 
-//SINGLE PRODUCT
+    //SINGLE PRODUCT
     public function show($id)
     {
         $product = Product::find($id);
@@ -51,7 +51,7 @@ class ProductController extends Controller
         return response()->json(['product' => $product], 200);
     }
 
-//UPDATE PRODUCT
+    //UPDATE PRODUCT
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
@@ -78,7 +78,7 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product updated successfully', 'product' => $product], 200);
     }
 
-//DELET PRODUCT 
+    //DELET PRODUCT 
     public function delete($id)
     {
         $product = Product::find($id);
@@ -96,14 +96,13 @@ class ProductController extends Controller
     public function filterByCategory(Request $request)
     {
         $category = $request->input('category');
-    
+
         $filteredProducts = Product::where('category', $category)->get();
-    
+
         if ($filteredProducts->isEmpty()) {
             return response()->json(['message' => 'No products found for the specified category'], 404);
         }
-    
+
         return response()->json(['products' => $filteredProducts], 200);
     }
-    
 }

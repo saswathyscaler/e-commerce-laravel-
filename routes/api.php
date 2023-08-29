@@ -38,6 +38,8 @@ Route::group(['middleware' => 'admin.auth'], function () {
     Route::delete('/products/{id}', [ProductController::class, 'delete']);
 
     Route::delete('/ratings/{id}', [RatingController::class, 'deleteRating'])->middleware('auth:api');
+
+    Route::put('/users/{id}/toggle', [UserController::class, 'toggleActivation']);
 });
 
 

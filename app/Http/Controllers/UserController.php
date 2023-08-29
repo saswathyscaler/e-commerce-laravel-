@@ -113,4 +113,20 @@ class UserController extends Controller
             'status' => 200
         ]);
     }
+
+
+//is_active toggle 
+    public function toggleActivation(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'is_active' => !$user->is_active, 
+        ]);
+
+        return response()->json([
+            'message' => 'User activation status updated successfully',
+            'is_active' => $user->is_active,
+        ]);
+    }
 }
