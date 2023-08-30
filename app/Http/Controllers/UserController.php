@@ -49,17 +49,24 @@ class UserController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
-
+    
         $user = User::where('email', $validateData['email'])->first();
-
+    
         if (!$user || !Hash::check($validateData['password'], $user->password)) {
             return response()->json([
                 'message' => 'Invalid email or password',
                 'status' => 401
             ], 401);
         }
-
-        $token = $user->createToken('auth_token')->accessToken;
+    
+        if (!$user->is_active) {
+            return response()->json([
+                'message' => 'You Are blocked contact us ....',
+                'status' => 403
+            ], 403);
+        }
+    
+     $token = $user->createToken('auth_token')->accessToken;
 
         if ($validateData['email'] === 'saswatranjan0602@gmail.com' && $validateData['password'] === 'Saswat@0602') {
             return response()->json([
@@ -70,7 +77,7 @@ class UserController extends Controller
                 'status' => 200
             ]);
         }
-
+    
         return response()->json([
             'token' => $token,
             'user_id' => $user->id,
@@ -79,8 +86,7 @@ class UserController extends Controller
             'status' => 200
         ]);
     }
-
-
+    
 
 
     //Get specifuc user 
@@ -134,35 +140,35 @@ class UserController extends Controller
 
 
 
-    public function loginG(Request $request)
-    {
-        $token = $request->input('token');
-        $client = new Google_Client(['client_id' => '379610863976-ed60k5hqj9kb6tvaej507kmhv62o5tm8.apps.googleusercontent.com']);
-        $client->setAccessToken(['id_token' => $token]);
-        $payload = $client->verifyIdToken($token);
+    // public function loginG(Request $request)
+    // {
+    //     $token = $request->input('token');
+    //     $client = new Google_Client(['client_id' => '379610863976-ed60k5hqj9kb6tvaej507kmhv62o5tm8.apps.googleusercontent.com']);
+    //     $client->setAccessToken(['id_token' => $token]);
+    //     $payload = $client->verifyIdToken($token);
 
 
-        if ($payload) {
-            $googleEmail = $payload['email'];
+    //     if ($payload) {
+    //         $googleEmail = $payload['email'];
 
-            $user = User::where('email', $googleEmail)->first();
+    //         $user = User::where('email', $googleEmail)->first();
 
-            if ($user) {
-                $authToken = $user->createToken('auth_token')->accessToken;
+    //         if ($user) {
+    //             $authToken = $user->createToken('auth_token')->accessToken;
 
-                return response()->json([
-                    'token' => $authToken,
-                    'user_id' => $user->id,
-                    'user_name' => $user->name,
-                    'message' => 'Logged in with Google',
-                    'status' => 200
-                ]);
-            }
-        } else {
-            return response()->json([
-                'message' => 'Invalid Google token',
-                'status' => 401
-            ], 401);
-        }
-    }
+    //             return response()->json([
+    //                 'token' => $authToken,
+    //                 'user_id' => $user->id,
+    //                 'user_name' => $user->name,
+    //                 'message' => 'Logged in with Google',
+    //                 'status' => 200
+    //             ]);
+    //         }
+    //     } else {
+    //         return response()->json([
+    //             'message' => 'Invalid Google token',
+    //             'status' => 401
+    //         ], 401);
+    //     }
+    // }
 }

@@ -47,9 +47,9 @@ Route::middleware(['admin', 'auth:api'])->group(function () {
     
     Route::put('/coupons/{id}/edit', [CouponController::class, 'editCoupon']);
     Route::delete('/coupons/{id}/delete', [CouponController::class, 'deleteCoupon']);
-    Route::put('/users/{id}/toggle', [UserController::class, 'toggleActivation']);
 });
 
+Route::put('/users/{id}/toggle', [UserController::class, 'toggleActivation']);
 Route::get('/coupons/{id}', [CouponController::class, 'showCoupon']);
 Route::post('/coupons/create', [CouponController::class, 'createCoupon']);
 
