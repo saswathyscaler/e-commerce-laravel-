@@ -39,23 +39,26 @@ Route::get('/users', [UserController::class, 'getAllUsers']);
 // Routes accessible only to admin users
 
 Route::middleware(['admin', 'auth:api'])->group(function () {
-    Route::post('/addproduct', [ProductController::class, 'store']);
     Route::post('/products/{id}', [ProductController::class, 'update']);
-    Route::delete('/products/{id}', [ProductController::class, 'delete']);
     Route::delete('/ratings/{id}', [RatingController::class, 'deleteRating'])->middleware('auth:api');
     
+    Route::post('/addproduct', [ProductController::class, 'store']);
     
-    Route::put('/coupons/{id}/edit', [CouponController::class, 'editCoupon']);
     Route::delete('/coupons/{id}/delete', [CouponController::class, 'deleteCoupon']);
+    Route::put('/users/{id}/toggle', [UserController::class, 'toggleActivation']);
 });
 
-Route::put('/users/{id}/toggle', [UserController::class, 'toggleActivation']);
-Route::get('/coupons/{id}', [CouponController::class, 'showCoupon']);
 Route::post('/coupons/create', [CouponController::class, 'createCoupon']);
+
+Route::post('/coupons/{id}/edit', [CouponController::class, 'editCoupon']);
+
+//products
+
+Route::delete('/products/{id}', [ProductController::class, 'delete']);
+Route::get('/coupons/{id}', [CouponController::class, 'showCoupon']);
 
 Route::get('/coupons', [CouponController::class, 'getAllCoupons']);
 
-//products
 
 
 Route::get('/products', [ProductController::class, 'index']);
@@ -85,6 +88,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/wishlist', [WishlistController::class, 'showWishlist']);
 
     Route::delete('/wishlist/remove/{productId}', [WishlistController::class, 'removeFromWishlist']);
+
+    Route::get('/wishlist/{id}', [WishlistController::class, 'getWishlistItem']);
+
+
+
+
 });
 
 Route::post('/placeOrder', [PaymentController::class, 'placeOrder']);

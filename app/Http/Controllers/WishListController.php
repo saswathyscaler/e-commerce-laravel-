@@ -45,7 +45,24 @@ class WishListController extends Controller
         return response()->json($wishlistItem);
     }
 
+    //get singlewishlist
 
+    public function getWishlistItem($id)
+    {
+        $user = auth()->user();
+    
+        $wishlistItem = Wishlist::where('user_id', $user->id)
+            ->where('id', $id)
+            ->with('product')
+            ->first();
+    
+        if (!$wishlistItem) {
+            return response()->json(['message' => 'Wishlist item not found'], 404);
+        }
+    
+        return response()->json($wishlistItem);
+    }
+    
     //REMOVE FROM Wishlist
     public function removeFromWishlist($productId)
     {
