@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //User 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/login-google', [UserController::class, 'loginG']);
+
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
@@ -41,12 +43,15 @@ Route::middleware(['admin', 'auth:api'])->group(function () {
     Route::post('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'delete']);
     Route::delete('/ratings/{id}', [RatingController::class, 'deleteRating'])->middleware('auth:api');
-    Route::post('/coupons/create', [CouponController::class, 'createCoupon']);
+    
+    
     Route::put('/coupons/{id}/edit', [CouponController::class, 'editCoupon']);
     Route::delete('/coupons/{id}/delete', [CouponController::class, 'deleteCoupon']);
     Route::put('/users/{id}/toggle', [UserController::class, 'toggleActivation']);
 });
 
+Route::get('/coupons/{id}', [CouponController::class, 'showCoupon']);
+Route::post('/coupons/create', [CouponController::class, 'createCoupon']);
 
 Route::get('/coupons', [CouponController::class, 'getAllCoupons']);
 

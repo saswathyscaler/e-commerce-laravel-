@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Google_Client;
 
 
 class UserController extends Controller
@@ -128,5 +130,39 @@ class UserController extends Controller
             'message' => 'User activation status updated successfully',
             'is_active' => $user->is_active,
         ]);
+    }
+
+
+
+    public function loginG(Request $request)
+    {
+        $token = $request->input('token');
+        $client = new Google_Client(['client_id' => '379610863976-ed60k5hqj9kb6tvaej507kmhv62o5tm8.apps.googleusercontent.com']);
+        $client->setAccessToken(['id_token' => $token]);
+        $payload = $client->verifyIdToken($token);
+
+
+        if ($payload) {
+            $googleEmail = $payload['email'];
+
+            $user = User::where('email', $googleEmail)->first();
+
+            if ($user) {
+                $authToken = $user->createToken('auth_token')->accessToken;
+
+                return response()->json([
+                    'token' => $authToken,
+                    'user_id' => $user->id,
+                    'user_name' => $user->name,
+                    'message' => 'Logged in with Google',
+                    'status' => 200
+                ]);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Invalid Google token',
+                'status' => 401
+            ], 401);
+        }
     }
 }

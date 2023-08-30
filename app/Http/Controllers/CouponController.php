@@ -32,11 +32,24 @@ class CouponController extends Controller
 
     public function getAllCoupons()
     {
-        $coupons = Coupon::all();
+        $coupons = Coupon::all();                       
     
         return response()->json([
             'coupons' => $coupons,
         ]);
+    }
+
+
+// single coupon
+    public function showCoupon($id)
+    {
+        $coupon = Coupon::find($id);
+
+        if (!$coupon) {
+            return response()->json(['message' => 'coupon not found'], 404);
+        }
+
+        return response()->json(['coupon' => $coupon], 200);
     }
     
 
