@@ -30,7 +30,7 @@ class UserController extends Controller
             $token = $user->createToken('auth_token')->accessToken;
             return response()->json([
                 'token' => $token,
-                'user_id' => $user->id, // Include the user's ID in the response
+                'user_id' => $user->id,
                 'message' => 'User created successfully',
                 'status' => 200
             ]);

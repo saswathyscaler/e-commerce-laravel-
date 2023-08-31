@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\demoOrder;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RatingController;
@@ -45,9 +46,9 @@ Route::middleware(['admin', 'auth:api'])->group(function () {
     Route::post('/addproduct', [ProductController::class, 'store']);
     
     Route::delete('/coupons/{id}/delete', [CouponController::class, 'deleteCoupon']);
-    Route::put('/users/{id}/toggle', [UserController::class, 'toggleActivation']);
 });
 
+Route::put('/users/{id}/toggle', [UserController::class, 'toggleActivation']);
 Route::post('/coupons/create', [CouponController::class, 'createCoupon']);
 
 Route::post('/coupons/{id}/edit', [CouponController::class, 'editCoupon']);
@@ -115,3 +116,8 @@ Route::put('/ratings/edit/{id}', [RatingController::class, 'editRating'])->middl
 Route::middleware('auth:api')->get('/test', function () {
     return Auth::user()->email;
 });
+
+
+
+
+Route::get('/sendemail', [demoOrder::class, 'index']);

@@ -7,7 +7,8 @@ use App\Models\Order;
 use App\Models\User;
 use Razorpay\Api\Api;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderConfirmation;
 class PaymentController extends Controller
 {
     public function makePayment(Request $request)
@@ -25,47 +26,6 @@ class PaymentController extends Controller
     }
 
 
-    // public function handlePayment(Request $request)
-    // {
-    //     try {
-    //         // Creating an instance of the Razorpay API
-    //         $api = new Api(config('services.razorpay.key_id'), config('services.razorpay.key_secret'));
-
-    //         // Create an order with Razorpay
-    //         $order = $api->order->create([
-    //             'amount' => $request->input('amount') * 100,
-    //             'currency' => 'INR',
-    //             'receipt' => 'order_receipt',
-    //         ]);
-
-       
-    //         $formData = new FormData([
-    //             'name' => $request->input('name'),
-    //             'mobileNumber' => $request->input('mobileNumber'),
-    //             'alternateNumber' => $request->input('alternateNumber'),
-    //             'address' => $request->input('address'),
-    //             'user_id' => auth()->id(), // Store the currently authenticated user's ID
-    //             'order_id' => $order->id, // Store the order ID associated with this form data
-    //         ]);
-
-    //         $formData->save();
-    //         error_log("Form data saved - ID: " . $formData->id);
-    //         // Logging form data storage
-    //         error_log("Form data saved - ID: " . $formData->id);
-
-    //         return response()->json(['order_id' => $order->id, 'message' => 'Payment and order placed successfully'], 200);
-    //     } catch (\Exception $e) {
-    //         // Handle any exceptions that might occur during the process
-
-    //         // Logging errors
-    //         error_log("Error processing payment and order: " . $e->getMessage());
-
-    //         return response()->json(['message' => 'Error processing payment and order'], 500);
-    //     }
-    // }
-
-
-
 
     public function handlePayment(Request $request)
     {
@@ -80,7 +40,8 @@ class PaymentController extends Controller
             ]);
 
             $formData->save();
-
+            $user = auth()->user(); // Assuming you're using the default Laravel authentication
+            Mail::to($user)->send(new OrderConfirmation($formData));
             return response()->json(['message' => 'Form data saved successfully'], 200);
         } catch (\Exception $e) {
 
