@@ -94,8 +94,15 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/wishlist/{id}', [WishlistController::class, 'getWishlistItem']);
 
 
-    Route::post('/order', [OrderedController::class, 'store']);
     Route::delete('/cart', [CartController::class, 'clearCart']);
+    
+    
+    // orders
+    
+    Route::post('/order', [OrderedController::class, 'store']);
+    Route::get('allorders', [OrderedController::class ,'index']);
+    Route::get('/ordered-items', [OrderedController::class ,'singleUserOrder']);
+
 
 });
 
@@ -122,3 +129,6 @@ Route::middleware('auth:api')->get('/test', function () {
 
 
 Route::get('/sendemail', [demoOrder::class, 'index']);
+
+
+Route::get('/ordered-items/{product_id}', 'OrderedController@getUserSpecificOrderedProduct');

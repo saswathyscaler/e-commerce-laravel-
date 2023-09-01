@@ -29,4 +29,21 @@ class OrderedController extends Controller
 
         return response()->json(['message' => 'Cart items have been ordered successfully']);
     }
+    public function singleUserOrder(Request $request)
+    {
+        $user = $request->user();
+
+        $orderedItems = Odered::where('user_id', $user->id)->get();
+
+        return response()->json(['ordered_items' => $orderedItems]);
+    }
+
+
+
+    public function index()
+    {
+        $products = Odered::all();
+
+        return response()->json(['products' => $products], 200);
+    }
 }
