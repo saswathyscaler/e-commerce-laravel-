@@ -97,18 +97,19 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/cart', [CartController::class, 'clearCart']);
     
     
+    Route::get('/ordered-items', [OrderedController::class ,'singleUserOrder']);
     // orders
     
     Route::post('/order', [OrderedController::class, 'store']);
-    Route::get('allorders', [OrderedController::class ,'index']);
-    Route::get('/ordered-items', [OrderedController::class ,'singleUserOrder']);
     Route::put('/order-status/{order_id}', [OrderedController::class ,'updateOrderStatus']);
-
+    
 });
+Route::get('allorders', [OrderedController::class ,'index']);
 
 Route::post('/placeOrder', [PaymentController::class, 'placeOrder']);
 
 Route::get('form-data', [PaymentController::class, 'getAllFormData']);
+
 
 
 //Rating of products
