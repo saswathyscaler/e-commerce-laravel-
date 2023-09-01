@@ -36,7 +36,6 @@ class CartController extends Controller
     }
 
     //VIEW CART ITEMS
-
     public function index(Request $request)
     {
         $user = $request->user();
@@ -61,4 +60,20 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Product removed from cart successfully']);
     }
+
+
+
+    public function clearCart(Request $request)
+    {
+        $user = $request->user();
+
+        Cart::where('user_id', $user->id)->delete();
+
+        return response()->json(['message' => 'Cart has been cleared successfully']);
+    }
+
+
+
+
+
 }

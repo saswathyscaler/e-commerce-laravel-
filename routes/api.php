@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\demoOrder;
+use App\Http\Controllers\OrderedController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RatingController;
@@ -93,14 +94,14 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/wishlist/{id}', [WishlistController::class, 'getWishlistItem']);
 
 
-
+    Route::post('/order', [OrderedController::class, 'store']);
+    Route::delete('/cart', [CartController::class, 'clearCart']);
 
 });
 
 Route::post('/placeOrder', [PaymentController::class, 'placeOrder']);
 
 Route::get('form-data', [PaymentController::class, 'getAllFormData']);
-
 
 
 //Rating of products
