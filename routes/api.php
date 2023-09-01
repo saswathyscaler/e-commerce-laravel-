@@ -101,10 +101,10 @@ Route::middleware('auth:api')->group(function () {
     // orders
     
     Route::post('/order', [OrderedController::class, 'store']);
-    Route::put('/order-status/{order_id}', [OrderedController::class ,'updateOrderStatus']);
     
 });
 Route::get('allorders', [OrderedController::class ,'index']);
+Route::put('/order-status/{order_id}', [OrderedController::class ,'updateOrderStatus']);
 
 Route::post('/placeOrder', [PaymentController::class, 'placeOrder']);
 
