@@ -8,7 +8,7 @@ use App\Models\Odered;
 
 class OrderedController extends Controller
 
-   
+
 {
     public function store(Request $request)
     {
@@ -16,15 +16,12 @@ class OrderedController extends Controller
 
         $cartItems = Cart::where('user_id', $user->id)->get();
 
-        if ($cartItems->isEmpty()) {
-            return response()->json(['message' => 'No items in the cart to order'], 400);
-        }
-
         foreach ($cartItems as $cartItem) {
             Odered::create([
                 'user_id' => $user->id,
                 'product_id' => $cartItem->product_id,
                 'quantity' => $cartItem->quantity,
+                'order_date' => now(),
             ]);
 
             $cartItem->delete();
