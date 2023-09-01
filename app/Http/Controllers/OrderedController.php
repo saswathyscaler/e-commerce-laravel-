@@ -46,4 +46,24 @@ class OrderedController extends Controller
 
         return response()->json(['products' => $products], 200);
     }
+
+
+
+    public function updateOrderStatus($orderId)
+{
+    // Find the ordered item by its ID
+    $orderedItem = Odered::find($orderId);
+
+    if (!$orderedItem) {
+        return response()->json(['message' => 'Ordered item not found'], 404);
+    }
+
+    // Set the 'order_status' to 'true' by default
+    $orderedItem->order_status = 'true';
+    $orderedItem->save();
+
+    return response()->json(['message' => 'Order status updated to true successfully']);
+}
+
+    
 }

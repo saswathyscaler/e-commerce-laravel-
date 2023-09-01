@@ -102,7 +102,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/order', [OrderedController::class, 'store']);
     Route::get('allorders', [OrderedController::class ,'index']);
     Route::get('/ordered-items', [OrderedController::class ,'singleUserOrder']);
-
+    Route::put('/order-status/{order_id}', [OrderedController::class ,'updateOrderStatus']);
 
 });
 
