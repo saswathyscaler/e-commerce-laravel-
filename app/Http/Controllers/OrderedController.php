@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\Odered;
-use Illuminate\Support\Facades\Auth;
 
 class OrderedController extends Controller
 
@@ -32,24 +31,14 @@ class OrderedController extends Controller
     }
 
 
-   
     public function singleUserOrder(Request $request)
     {
 
-            $user = $request->user();
-    
-            $orderedItems = Odered::where('user_id', $user->id)->with('product')->get();
-    
+        $user = $request->user();
 
-            
-            return response()->json(['ordered_items' => $orderedItems]);
-      
-        
-}
-    
-    
-    
-
+        $orderedItems = Odered::where('user_id', $user->id)->with('product')->get();
+        return response()->json(['ordered_items' => $orderedItems]);
+    }
 
     public function index()
     {
@@ -62,14 +51,12 @@ class OrderedController extends Controller
 
     public function updateOrderStatus($orderId)
     {
-        // Find the ordered item by its ID
         $orderedItem = Odered::find($orderId);
 
         if (!$orderedItem) {
             return response()->json(['message' => 'Ordered item not found'], 404);
         }
 
-        // Set the 'order_status' to 'true' by default
         $orderedItem->order_status = 'true';
         $orderedItem->save();
 

@@ -50,24 +50,24 @@ class UserController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
-    
+
         $user = User::where('email', $validateData['email'])->first();
-    
+
         if (!$user || !Hash::check($validateData['password'], $user->password)) {
             return response()->json([
                 'message' => 'Invalid email or password',
                 'status' => 401
             ], 401);
         }
-    
+
         if (!$user->is_active) {
             return response()->json([
                 'message' => 'You Are blocked contact us ....',
                 'status' => 403
             ], 403);
         }
-    
-     $token = $user->createToken('auth_token')->accessToken;
+
+        $token = $user->createToken('auth_token')->accessToken;
 
         if ($validateData['email'] === 'saswatranjan0602@gmail.com' && $validateData['password'] === 'Saswat@0602') {
             return response()->json([
@@ -78,7 +78,7 @@ class UserController extends Controller
                 'status' => 200
             ]);
         }
-    
+
         return response()->json([
             'token' => $token,
             'user_id' => $user->id,
@@ -87,7 +87,7 @@ class UserController extends Controller
             'status' => 200
         ]);
     }
-    
+
 
 
     //Get specifuc user 
@@ -139,9 +139,9 @@ class UserController extends Controller
         ]);
     }
 
-  
-    
-      
+
+
+
 
 
     // public function loginG(Request $request)

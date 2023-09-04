@@ -12,7 +12,7 @@ class demoOrder extends Controller
 
     public function index()
     {
-        $mailData = [ 
+        $mailData = [
             'title' => "mail from shop app",
             'body' => "This is a testing mail from shop app"
         ];

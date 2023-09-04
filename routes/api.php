@@ -43,9 +43,9 @@ Route::get('/users', [UserController::class, 'getAllUsers']);
 Route::middleware(['admin', 'auth:api'])->group(function () {
     Route::post('/products/{id}', [ProductController::class, 'update']);
     Route::delete('/ratings/{id}', [RatingController::class, 'deleteRating'])->middleware('auth:api');
-    
+
     Route::post('/addproduct', [ProductController::class, 'store']);
-    
+
     Route::delete('/coupons/{id}/delete', [CouponController::class, 'deleteCoupon']);
 });
 
@@ -95,16 +95,15 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::delete('/cart', [CartController::class, 'clearCart']);
-    
-    
-    Route::get('/ordered-items', [OrderedController::class ,'singleUserOrder']);
+
+
+    Route::get('/ordered-items', [OrderedController::class, 'singleUserOrder']);
     // orders
-    
+
     Route::post('/order', [OrderedController::class, 'store']);
-    
 });
-Route::get('allorders', [OrderedController::class ,'index']);
-Route::put('/order-status/{order_id}', [OrderedController::class ,'updateOrderStatus']);
+Route::get('allorders', [OrderedController::class, 'index']);
+Route::put('/order-status/{order_id}', [OrderedController::class, 'updateOrderStatus']);
 
 Route::post('/placeOrder', [PaymentController::class, 'placeOrder']);
 

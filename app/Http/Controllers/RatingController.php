@@ -24,7 +24,6 @@ class RatingController extends Controller
         $rating_value = $request->input('rating');
         $review = $request->input('review');
 
-        // Fetch the user's name from the User model
         $user_name = $user->name;
 
         $existingRating = Rating::where('user_id', $user->id)
@@ -38,7 +37,7 @@ class RatingController extends Controller
         } else {
             Rating::create([
                 'user_id' => $user->id,
-                'user_name' => $user_name, // Store the user's name
+                'user_name' => $user_name,
                 'product_id' => $product_id,
                 'rating' => $rating_value,
                 'review' => $review,

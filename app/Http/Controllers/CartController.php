@@ -71,9 +71,4 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Cart has been cleared successfully']);
     }
-
-
-
-
-
 }
