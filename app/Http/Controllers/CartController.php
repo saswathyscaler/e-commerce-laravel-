@@ -12,15 +12,14 @@ class CartController extends Controller
     //ADD PRODUCT TO THE CART
     public function addToCart(Request $request, $productId)
     {
-
         $user = auth()->user();
-
+    
         $product = Product::findOrFail($productId);
-
+    
         $cartItem = Cart::where('user_id', $user->id)
             ->where('product_id', $product->id)
             ->first();
-
+    
         if ($cartItem) {
             $cartItem->quantity += 1;
             $cartItem->save();
@@ -31,9 +30,13 @@ class CartController extends Controller
                 'quantity' => 1,
             ]);
         }
-
-        return response()->json(['message' => 'Product added to cart successfully']);
+    
+        return response()->json([
+            'message' => 'Product added to cart successfully',
+            'product_id' => $product->id, 
+        ]);
     }
+    
 
     //VIEW CART ITEMS
     public function index(Request $request)
@@ -43,7 +46,6 @@ class CartController extends Controller
         $cartItems = Cart::where('user_id', $user->id)
             ->with('product')
             ->get();
-
         return response()->json($cartItems);
     }
 
